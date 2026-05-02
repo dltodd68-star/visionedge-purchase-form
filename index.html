@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Business Purchase Form</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .product-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .product-card.selected {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .product-pricing {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .price-highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .total-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .total-row.grand-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+            padding-top: 10px;
+            border-top: 2px solid #e0e0e0;
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .success {
+            background: #efe;
+            color: #3a3;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo Section - Add your logo image here -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <!-- <img src="logo.png" alt="VisionEdge AI Media" style="max-width: 200px;"> -->
+            <h1 style="margin: 0;">VisionEdge AI Media</h1>
+        </div>
+        <p class="subtitle">Select your product and complete your purchase</p>
+        
+        <div id="error-message" class="error hidden"></div>
+        <div id="success-message" class="success hidden"></div>
+        
+        <form id="purchase-form">
+            <!-- Customer Information -->
+            <div class="form-group">
+                <label>Customer Name *</label>
+                <input type="text" id="customer-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Customer Email *</label>
+                <input type="email" id="customer-email" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Customer Phone</label>
+                <input type="tel" id="customer-phone">
+            </div>
+            
+            <!-- Salesperson Information -->
+            <div class="form-group">
+                <label>Salesperson Name *</label>
+                <input type="text" id="salesperson-name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Salesperson Email *</label>
+                <input type="email" id="salesperson-email" required>
+            </div>
+            
+            <!-- Product Selection -->
+            <div class="form-group">
+                <label>Select Product *</label>
+                <div id="product-list">
+                    <!-- Products will be inserted here -->
+                </div>
+            </div>
+            
+            <!-- Total Section -->
+            <div class="total-section hidden" id="total-section">
+                <div class="total-row">
+                    <span>Setup Fee:</span>
+                    <span id="setup-fee-display">$0</span>
+                </div>
+                <div class="total-row">
+                    <span>Monthly Fee:</span>
+                    <span id="monthly-fee-display">$0</span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>Due Today:</span>
+                    <span id="total-display">$0</span>
+                </div>
+                <p style="font-size: 12px; color: #666; margin-top: 10px;">
+                    Monthly billing begins 30 days after purchase
+                </p>
+            </div>
+            
+            <button type="submit" id="submit-btn">
+                Complete Purchase
+            </button>
+        </form>
+        
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px; color: #666;">Processing your payment...</p>
+        </div>
+    </div>
+    
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
