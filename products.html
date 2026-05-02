@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionEdge AI Media - Products & Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        
+        .product-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .product-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .product-desc {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            min-height: 60px;
+        }
+        
+        .price-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .setup-fee {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .monthly-fee {
+            font-size: 18px;
+            color: #888;
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .features li {
+            padding: 8px 0;
+            color: #555;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .contact-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .contact-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            color: #999;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>VisionEdge AI Media</h1>
+            <p class="tagline">Transform Your Business with AI Solutions</p>
+        </div>
+        
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-name">Go Mobile AI</div>
+                <div class="product-desc">Complete mobile AI solution for local businesses. Drive engagement and growth with intelligent automation.</div>
+                <div class="price-box">
+                    <div class="setup-fee">$497</div>
+                    <div class="monthly-fee">Setup Fee (One-time)</div>
+                    <div class="monthly-fee" style="margin-top: 10px; font-size: 20px; font-weight: 600; color: #667eea;">$97/month</div>
+                </div>
+                <ul class="features">
+                    <li>Mobile-optimized AI</li>
+                    <li>Local business focus</li>
+                    <li>Full setup & training</li>
+                    <li>Ongoing support</li>
+                </ul>
+                <div class="cta">Perfect for Small Businesses</div>
+            </div>
+            
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-name">My Local Agency AI</div>
+                <div class="product-desc">AI-powered voice technology for agencies. Automate client communication and scale your services.</div>
+                <div class="price-box">
+                    <div class="setup-fee">$997</div>
+                    <div class="monthly-fee">Setup Fee (One-time)</div>
+                    <div class="monthly-fee" style="margin-top: 10px; font-size: 20px; font-weight: 600; color: #667eea;">$197/month</div>
+                </div>
+                <ul class="features">
+                    <li>AI voice technology</li>
+                    <li>Agency-specific tools</li>
+                    <li>Client management</li>
+                    <li>Priority support</li>
+                </ul>
+                <div class="cta">Best for Growing Agencies</div>
+            </div>
+            
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-name">Smart Agency OS</div>
+                <div class="product-desc">Complete agency management system. Run your entire operation with AI-powered automation and intelligence.</div>
+                <div class="price-box">
+                    <div class="setup-fee">$1,497</div>
+                    <div class="monthly-fee">Setup Fee (One-time)</div>
+                    <div class="monthly-fee" style="margin-top: 10px; font-size: 20px; font-weight: 600; color: #667eea;">$297/month</div>
+                </div>
+                <ul class="features">
+                    <li>Full agency OS</li>
+                    <li>Advanced automation</li>
+                    <li>Team collaboration</li>
+                    <li>White-label options</li>
+                </ul>
+                <div class="cta">Enterprise Solution</div>
+            </div>
+            
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-name">Custom AI Solution</div>
+                <div class="product-desc">Tailored AI solution built for your specific business needs. Fully customized implementation and ongoing development.</div>
+                <div class="price-box">
+                    <div class="setup-fee">$2,500+</div>
+                    <div class="monthly-fee">Setup Fee (One-time)</div>
+                    <div class="monthly-fee" style="margin-top: 10px; font-size: 20px; font-weight: 600; color: #667eea;">$500+/month</div>
+                </div>
+                <ul class="features">
+                    <li>100% custom build</li>
+                    <li>Dedicated support</li>
+                    <li>Ongoing development</li>
+                    <li>Full integration</li>
+                </ul>
+                <div class="cta">Fully Customized</div>
+            </div>
+        </div>
+        
+        <div class="contact-section">
+            <h2>Ready to Get Started?</h2>
+            <div class="contact-info">
+                <p>Contact us to discuss which solution is right for you:</p>
+                <p><strong>Email:</strong> <a href="mailto:dltodd68@gmail.com">dltodd68@gmail.com</a></p>
+                <p style="margin-top: 20px; font-size: 16px; color: #888;">
+                    We'll create a custom invoice based on your needs and send it directly to your email.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>VisionEdge AI Media</strong></p>
+            <p>Secure payment processing by Stripe • All prices in USD</p>
+        </div>
+    </div>
+</body>
+</html>

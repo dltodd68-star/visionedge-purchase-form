@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionEdge AI Media - Sales Order Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .price-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .price-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VisionEdge AI Media</h1>
+        <p class="subtitle">Sales Order Form - Submit Deal Details</p>
+        
+        <div class="info-box">
+            <strong>For Salespeople:</strong> Fill out this form after closing a deal. Dave will create the invoice and send it to the customer.
+        </div>
+        
+        <div id="success" class="success-message">
+            ✅ Order submitted successfully! Dave will create the invoice and send it to the customer.
+        </div>
+        
+        <form id="orderForm">
+            <!-- Customer Information -->
+            <h3 style="color: #667eea; margin-bottom: 15px;">Customer Information</h3>
+            
+            <div class="form-group">
+                <label>Customer Name *</label>
+                <input type="text" id="customerName" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Customer Email *</label>
+                <input type="email" id="customerEmail" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Customer Phone</label>
+                <input type="tel" id="customerPhone">
+            </div>
+            
+            <!-- Product/Service Details -->
+            <h3 style="color: #667eea; margin: 30px 0 15px;">Product/Service Details</h3>
+            
+            <div class="form-group">
+                <label>Product/Service Name *</label>
+                <select id="productName" required>
+                    <option value="">-- Select Product --</option>
+                    <option value="Go Mobile AI">Go Mobile AI</option>
+                    <option value="My Local Agency AI">My Local Agency AI</option>
+                    <option value="Smart Agency OS">Smart Agency OS</option>
+                    <option value="Custom AI Solution">Custom AI Solution</option>
+                    <option value="Other">Other (specify in notes)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>Product Description / Notes</label>
+                <textarea id="productDescription" placeholder="Any special features, customizations, or details about this sale..."></textarea>
+            </div>
+            
+            <!-- Pricing -->
+            <div class="price-section">
+                <h3>Agreed Pricing</h3>
+                
+                <div class="form-group">
+                    <label>Setup/One-Time Fee ($) *</label>
+                    <input type="number" id="setupFee" min="0" step="0.01" required placeholder="497.00">
+                </div>
+                
+                <div class="form-group">
+                    <label>Monthly Subscription Fee ($) *</label>
+                    <input type="number" id="monthlyFee" min="0" step="0.01" required placeholder="97.00">
+                </div>
+                
+                <div class="form-group">
+                    <label>Special Terms / Discounts</label>
+                    <textarea id="specialTerms" rows="2" placeholder="e.g., First month free, 10% discount, custom payment plan..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Salesperson Information -->
+            <h3 style="color: #667eea; margin: 30px 0 15px;">Salesperson Information</h3>
+            
+            <div class="form-group">
+                <label>Your Name *</label>
+                <input type="text" id="salespersonName" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Your Email *</label>
+                <input type="email" id="salespersonEmail" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Additional Notes</label>
+                <textarea id="additionalNotes" rows="3" placeholder="Any special instructions for Dave..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Submit Order to Dave</button>
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                customer: {
+                    name: document.getElementById('customerName').value,
+                    email: document.getElementById('customerEmail').value,
+                    phone: document.getElementById('customerPhone').value
+                },
+                product: {
+                    name: document.getElementById('productName').value,
+                    description: document.getElementById('productDescription').value
+                },
+                pricing: {
+                    setupFee: document.getElementById('setupFee').value,
+                    monthlyFee: document.getElementById('monthlyFee').value,
+                    specialTerms: document.getElementById('specialTerms').value
+                },
+                salesperson: {
+                    name: document.getElementById('salespersonName').value,
+                    email: document.getElementById('salespersonEmail').value
+                },
+                notes: document.getElementById('additionalNotes').value,
+                submittedAt: new Date().toISOString()
+            };
+            
+            // Create email body
+            const emailBody = `
+NEW SALES ORDER SUBMITTED
+========================
+
+CUSTOMER INFORMATION:
+--------------------
+Name: ${formData.customer.name}
+Email: ${formData.customer.email}
+Phone: ${formData.customer.phone}
+
+PRODUCT/SERVICE:
+--------------
+Product: ${formData.product.name}
+Description: ${formData.product.description}
+
+PRICING:
+--------
+Setup Fee: $${formData.pricing.setupFee}
+Monthly Fee: $${formData.pricing.monthlyFee}
+Special Terms: ${formData.pricing.specialTerms}
+
+SALESPERSON:
+-----------
+Name: ${formData.salesperson.name}
+Email: ${formData.salesperson.email}
+
+ADDITIONAL NOTES:
+---------------
+${formData.notes}
+
+NEXT STEPS:
+----------
+1. Create Stripe invoice with above pricing
+2. Send invoice to customer email: ${formData.customer.email}
+3. Notify salesperson when invoice is sent
+
+Submitted: ${new Date().toLocaleString()}
+            `.trim();
+            
+            // Create mailto link
+            const subject = encodeURIComponent(`New Sale: ${formData.product.name} - ${formData.customer.name}`);
+            const body = encodeURIComponent(emailBody);
+            const mailtoLink = `mailto:dltodd68@gmail.com?subject=${subject}&body=${body}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('orderForm').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        });
+    </script>
+</body>
+</html>
