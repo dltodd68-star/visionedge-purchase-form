@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionEdge AI Media - Create Customer Invoice</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .price-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .info-box {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #004085;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VisionEdge AI Media</h1>
+        <p class="subtitle">Salesperson: Create Customer Invoice</p>
+        
+        <div class="info-box">
+            <strong>📋 Instructions:</strong> Fill out this form with customer details and pricing. The system will create a Stripe payment link and send it directly to the customer's email.
+        </div>
+        
+        <div id="error" class="error"></div>
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Creating invoice and payment link...</p>
+        </div>
+        
+        <form id="invoiceForm">
+            <!-- Customer Information -->
+            <div class="form-section">
+                <h3>Customer Information</h3>
+                
+                <div class="form-group">
+                    <label>Customer Name *</label>
+                    <input type="text" id="customerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Customer Email *</label>
+                    <input type="email" id="customerEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Customer Phone</label>
+                    <input type="tel" id="customerPhone">
+                </div>
+            </div>
+            
+            <!-- Product/Service -->
+            <div class="form-section">
+                <h3>Product/Service</h3>
+                
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <select id="productName" required>
+                        <option value="">-- Select Product --</option>
+                        <option value="Go Mobile AI">Go Mobile AI</option>
+                        <option value="My Local Agency AI">My Local Agency AI</option>
+                        <option value="Smart Agency OS">Smart Agency OS</option>
+                        <option value="Custom AI Solution">Custom AI Solution</option>
+                        <option value="Custom">Custom Product</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Product Description (optional)</label>
+                    <textarea id="productDescription" rows="3" placeholder="Add any special details or customizations..."></textarea>
+                </div>
+            </div>
+            
+            <!-- Pricing -->
+            <div class="form-section">
+                <h3>Pricing (Agreed with Customer)</h3>
+                
+                <div class="price-inputs">
+                    <div class="form-group">
+                        <label>Setup Fee ($) *</label>
+                        <input type="number" id="setupFee" min="0" step="0.01" required placeholder="497.00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Monthly Fee ($) *</label>
+                        <input type="number" id="monthlyFee" min="0" step="0.01" required placeholder="97.00">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Salesperson Info -->
+            <div class="form-section">
+                <h3>Your Information</h3>
+                
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" id="salespersonName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Your Email *</label>
+                    <input type="email" id="salespersonEmail" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Create Invoice & Send to Customer
+            </button>
+        </form>
+    </div>
+    
+    <script>
+        const stripe = Stripe('pk_live_51TO3zUHZtxrliH3O6oow1zbq6TMTDz9yKkcH3HB9IMpy5nsuPKJ5ufGwwNMKGc6RdDgqwXGrUg5X4eJh1WCOSwT800NhFcFII0');
+        
+        document.getElementById('invoiceForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                customer: {
+                    name: document.getElementById('customerName').value,
+                    email: document.getElementById('customerEmail').value,
+                    phone: document.getElementById('customerPhone').value
+                },
+                product: {
+                    id: document.getElementById('productName').value.toLowerCase().replace(/\s+/g, '-'),
+                    name: document.getElementById('productName').value,
+                    description: document.getElementById('productDescription').value,
+                    setupFee: parseFloat(document.getElementById('setupFee').value),
+                    monthlyFee: parseFloat(document.getElementById('monthlyFee').value)
+                },
+                salesperson: {
+                    name: document.getElementById('salespersonName').value,
+                    email: document.getElementById('salespersonEmail').value
+                },
+                owner: {
+                    name: 'Dave Todd',
+                    email: 'dltodd68@gmail.com',
+                    company: 'VisionEdge AI Media'
+                }
+            };
+            
+            showLoading(true);
+            hideError();
+            
+            try {
+                const response = await fetch('/.netlify/functions/create-checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to create payment link');
+                }
+                
+                const { url } = await response.json();
+                
+                // Redirect to Stripe Checkout
+                window.location.href = url;
+                
+            } catch (error) {
+                showError('Error creating invoice: ' + error.message);
+                showLoading(false);
+                console.error('Error:', error);
+            }
+        });
+        
+        function showLoading(show) {
+            const form = document.getElementById('invoiceForm');
+            const loading = document.getElementById('loading');
+            const btn = document.getElementById('submitBtn');
+            
+            if (show) {
+                form.style.opacity = '0.5';
+                loading.style.display = 'block';
+                btn.disabled = true;
+            } else {
+                form.style.opacity = '1';
+                loading.style.display = 'none';
+                btn.disabled = false;
+            }
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            errorDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
