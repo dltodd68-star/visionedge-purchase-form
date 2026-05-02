@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionEdge AI Media - Sales Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+        }
+        
+        .form-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            font-family: inherit;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .price-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .success {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .summary-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .summary-box h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .summary-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .copy-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>VisionEdge AI Media</h1>
+        <p class="subtitle">Sales Order Form</p>
+        
+        <div class="info-box">
+            <strong>📋 For Salespeople:</strong> Fill out this form after closing a deal. You'll get a summary to copy and send to Dave at <strong>dltodd68@gmail.com</strong>
+        </div>
+        
+        <div id="success" class="success">
+            ✅ Form completed! Copy the summary below and email it to Dave.
+        </div>
+        
+        <form id="salesForm">
+            <!-- Customer Info -->
+            <div class="form-section">
+                <h3>Customer Information</h3>
+                
+                <div class="form-group">
+                    <label>Customer Name *</label>
+                    <input type="text" id="custName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Customer Email *</label>
+                    <input type="email" id="custEmail" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Customer Phone</label>
+                    <input type="tel" id="custPhone">
+                </div>
+            </div>
+            
+            <!-- Product -->
+            <div class="form-section">
+                <h3>Product/Service</h3>
+                
+                <div class="form-group">
+                    <label>Product *</label>
+                    <select id="product" required>
+                        <option value="">-- Select --</option>
+                        <option value="Go Mobile AI">Go Mobile AI</option>
+                        <option value="My Local Agency AI">My Local Agency AI</option>
+                        <option value="Smart Agency OS">Smart Agency OS</option>
+                        <option value="Custom AI Solution">Custom AI Solution</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Notes/Description</label>
+                    <textarea id="notes" rows="2"></textarea>
+                </div>
+            </div>
+            
+            <!-- Pricing -->
+            <div class="form-section">
+                <h3>Agreed Pricing</h3>
+                
+                <div class="price-row">
+                    <div class="form-group">
+                        <label>Setup Fee ($) *</label>
+                        <input type="number" id="setupFee" min="0" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Monthly ($) *</label>
+                        <input type="number" id="monthlyFee" min="0" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Salesperson -->
+            <div class="form-section">
+                <h3>Salesperson</h3>
+                
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" id="salesName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Your Email *</label>
+                    <input type="email" id="salesEmail" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Generate Summary</button>
+        </form>
+        
+        <div id="summary" class="summary-box">
+            <h3>📋 Order Summary - Send This To Dave</h3>
+            <div id="summaryContent"></div>
+            <button class="copy-btn" onclick="copySummary()">📋 Copy to Clipboard</button>
+            <button class="copy-btn" style="background: #007bff; margin-left: 10px;" onclick="emailDave()">✉️ Open Email to Dave</button>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('salesForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const data = {
+                custName: document.getElementById('custName').value,
+                custEmail: document.getElementById('custEmail').value,
+                custPhone: document.getElementById('custPhone').value,
+                product: document.getElementById('product').value,
+                notes: document.getElementById('notes').value,
+                setupFee: document.getElementById('setupFee').value,
+                monthlyFee: document.getElementById('monthlyFee').value,
+                salesName: document.getElementById('salesName').value,
+                salesEmail: document.getElementById('salesEmail').value
+            };
+            
+            const summary = `
+NEW SALE - ${data.product}
+========================
+
+CUSTOMER:
+Name: ${data.custName}
+Email: ${data.custEmail}
+Phone: ${data.custPhone || 'N/A'}
+
+PRODUCT: ${data.product}
+${data.notes ? 'Notes: ' + data.notes : ''}
+
+PRICING:
+Setup Fee: $${data.setupFee}
+Monthly: $${data.monthlyFee}
+
+SALESPERSON:
+${data.salesName}
+${data.salesEmail}
+
+NEXT STEP:
+Create Stripe invoice and send to ${data.custEmail}
+            `.trim();
+            
+            window.summaryText = summary;
+            
+            document.getElementById('summaryContent').innerHTML = `<pre style="white-space: pre-wrap; font-family: monospace; font-size: 13px;">${summary}</pre>`;
+            
+            document.getElementById('success').style.display = 'block';
+            document.getElementById('summary').style.display = 'block';
+            document.getElementById('salesForm').style.display = 'none';
+            
+            window.scrollTo(0, 0);
+        });
+        
+        function copySummary() {
+            navigator.clipboard.writeText(window.summaryText).then(() => {
+                alert('✅ Copied! Now paste it into an email to dltodd68@gmail.com');
+            });
+        }
+        
+        function emailDave() {
+            const subject = encodeURIComponent('New Sale Order');
+            const body = encodeURIComponent(window.summaryText);
+            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=dltodd68@gmail.com&su=${subject}&body=${body}`, '_blank');
+        }
+    </script>
+</body>
+</html>
